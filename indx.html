@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LingoLeap — Learn English · A1 & A2</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐣</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:ital,wght@0,400;0,600;0,700;0,800;1,600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body data-level="A1">
+
+  <!-- floating letter tiles -->
+  <div class="letters" aria-hidden="true">
+    <span style="top:13%; left:4%">A</span>
+    <span style="top:32%; right:5%">b</span>
+    <span style="bottom:16%; left:6%">?</span>
+    <span style="top:9%; right:24%">!</span>
+    <span style="bottom:9%; right:13%">c</span>
+    <span style="top:58%; left:2%">e</span>
+  </div>
+
+  <header class="topbar">
+    <div class="wrap topbar-in">
+      <a class="logo" href="#"><span class="mark">Aa</span>Lingo<span class="hop">Leap</span></a>
+      <div class="lvl-switch" role="group" aria-label="Choose your level">
+        <button class="lvl" data-level="A1" type="button">A1</button>
+        <button class="lvl" data-level="A2" type="button">A2</button>
+      </div>
+      <div class="xp-pill" id="xpPill">⭐ <b id="xpVal">0</b>&nbsp;XP <span class="xp-bar"><i id="xpFill"></i></span></div>
+    </div>
+  </header>
+
+  <!-- useful phrases ticker -->
+  <div class="ticker" aria-hidden="true">
+    <div class="ticker-in">
+      <span>👋 Hello! How are you? &nbsp;✦&nbsp; 😊 I'm fine, thank you! &nbsp;✦&nbsp; 🧑 What's your name? &nbsp;✦&nbsp; 🤝 Nice to meet you! &nbsp;✦&nbsp; ☕ I'd like a coffee, please &nbsp;✦&nbsp; 🕐 What time is it? &nbsp;✦&nbsp; 🚉 Where is the station? &nbsp;✦&nbsp; 👋 See you tomorrow! &nbsp;✦&nbsp;</span>
+      <span>👋 Hello! How are you? &nbsp;✦&nbsp; 😊 I'm fine, thank you! &nbsp;✦&nbsp; 🧑 What's your name? &nbsp;✦&nbsp; 🤝 Nice to meet you! &nbsp;✦&nbsp; ☕ I'd like a coffee, please &nbsp;✦&nbsp; 🕐 What time is it? &nbsp;✦&nbsp; 🚉 Where is the station? &nbsp;✦&nbsp; 👋 See you tomorrow! &nbsp;✦&nbsp;</span>
+    </div>
+  </div>
+
+  <main class="wrap">
+
+    <!-- opening: word of the day + progress -->
+    <section class="stage">
+      <div class="stage-left">
+        <span class="kicker" id="levelKicker">A1 · Beginner</span>
+        <h1>Build your English <mark>one word</mark> at a time.</h1>
+        <p class="lede">Flip today's card, tap 🔊 to hear it, then collect XP in the quiz and games below.</p>
+
+        <div class="flip-card" id="wotd" tabindex="0" role="button" aria-label="Word of the day — press to flip">
+          <div class="flip-inner">
+            <div class="face front">
+              <span class="face-emoji" id="wotdEmoji">🎁</span>
+              <span class="face-hint">Tap to reveal today's word</span>
+            </div>
+            <div class="face back">
+              <span class="wotd-word" id="wotdWord">hello</span>
+              <span class="wotd-def" id="wotdDef"></span>
+              <span class="wotd-ex" id="wotdEx"></span>
+              <button class="btn btn-sun spk" id="wotdSpeak" type="button">🔊 Hear it</button>
+            </div>
+          </div>
+        </div>
+        <button class="btn btn-ghost" id="wotdShuffle" type="button">🎲 Give me another word</button>
+      </div>
+
+      <aside class="progress-card">
+        <div class="pc-row streak-row">
+          <span class="flame">🔥</span>
+          <div><b id="streakVal">0</b> streak<span class="small">correct answers in a row</span></div>
+        </div>
+        <div class="pc-row">
+          <div class="goal-head"><span>Progress</span><b id="goalTxt">0 / 50 XP</b></div>
+          <div class="goal-bar"><i id="goalFill"></i></div>
+        </div>
+        <div class="pc-row badges" id="badges"></div>
+        <p class="pc-tip">🔊 Tip: tap any speaker icon to hear a word or sentence.</p>
+      </aside>
+    </section>
+
+    <!-- tabs -->
+    <nav class="tabs" aria-label="Sections">
+      <button class="tab active" data-tab="words" type="button">📚 Words</button>
+      <button class="tab" data-tab="grammar" type="button">✏️ Grammar</button>
+      <button class="tab" data-tab="quiz" type="button">🎯 Quiz</button>
+      <button class="tab" data-tab="scramble" type="button">🧩 Scramble</button>
+      <button class="tab" data-tab="listen" type="button">🎧 Listening</button>
+    </nav>
+
+    <!-- WORDS -->
+    <section class="panel show" id="panel-words">
+      <div class="deck-grid" id="deckGrid"></div>
+    </section>
+
+    <!-- GRAMMAR -->
+    <section class="panel" id="panel-grammar">
+      <div class="grammar-grid" id="grammarGrid"></div>
+    </section>
+
+    <!-- QUIZ -->
+    <section class="panel" id="panel-quiz">
+      <div class="quiz-card" id="quizCard"></div>
+    </section>
+
+    <!-- SCRAMBLE -->
+    <section class="panel" id="panel-scramble">
+      <div class="game-card">
+        <div class="game-head">
+          <span class="chip" id="scrStreak">🔥 0</span>
+          <span class="chip soft">Put the letters in order</span>
+        </div>
+        <div class="scr-emoji" id="scrEmoji">🍎</div>
+        <p class="scr-def" id="scrDef"></p>
+        <div class="scr-tiles" id="scrTiles"></div>
+        <div class="scr-slots" id="scrSlots"></div>
+        <p class="game-msg" id="scrMsg">&nbsp;</p>
+        <div class="game-btns">
+          <button class="btn" id="scrHear" type="button">🔊 Hear</button>
+          <button class="btn btn-sun" id="scrHint" type="button">💡 Hint</button>
+          <button class="btn btn-accent" id="scrCheck" type="button">Check ✓</button>
+          <button class="btn btn-ghost" id="scrSkip" type="button">Skip →</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- LISTENING -->
+    <section class="panel" id="panel-listen">
+      <div class="game-card">
+        <div class="game-head">
+          <span class="chip" id="lisStreak">🔥 0</span>
+          <span class="mode-switch">
+            <button class="mode active" data-mode="word" type="button">Word</button>
+            <button class="mode" data-mode="sentence" type="button">Sentence</button>
+          </span>
+        </div>
+        <p class="listen-prompt">Listen and type what you hear 👂</p>
+        <div class="listen-btns">
+          <button class="btn big-spk" id="lisPlay" type="button">🔊 Play</button>
+          <button class="btn" id="lisSlow" type="button">🐢 Slow</button>
+        </div>
+        <input class="listen-input" id="lisInput" type="text" autocomplete="off" spellcheck="false" placeholder="Type the word here…" />
+        <p class="game-msg" id="lisMsg">&nbsp;</p>
+        <div class="game-btns">
+          <button class="btn btn-accent" id="lisCheck" type="button">Check ✓</button>
+          <button class="btn btn-sun" id="lisReveal" type="button" hidden>👀 Reveal</button>
+          <button class="btn btn-ghost" id="lisSkip" type="button">Skip →</button>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <p>Made for curious learners · Levels <b>A1</b> &amp; <b>A2</b> · Your XP is saved in this browser.</p>
+    </footer>
+  </main>
+
+  <!-- flashcard study modal -->
+  <div class="modal" id="studyModal" aria-hidden="true">
+    <div class="study">
+      <button class="study-close" id="studyClose" aria-label="Close" type="button">✕</button>
+      <p class="study-count" id="studyCount">1 / 6</p>
+      <div class="flip-card small" id="studyFlip" tabindex="0">
+        <div class="flip-inner">
+          <div class="face front">
+            <span class="face-emoji" id="studyEmoji">❓</span>
+            <span class="face-hint">What is it? Tap to flip</span>
+          </div>
+          <div class="face back">
+            <span class="wotd-word" id="studyWord"></span>
+            <span class="wotd-def" id="studyDef"></span>
+            <span class="wotd-ex" id="studyEx"></span>
+          </div>
+        </div>
+      </div>
+      <div class="study-btns">
+        <button class="btn" id="studyPrev" type="button">◀</button>
+        <button class="btn btn-sun spk" id="studySpeak" type="button">🔊</button>
+        <button class="btn" id="studyFlipBtn" type="button">Flip ↺</button>
+        <button class="btn" id="studyNext" type="button">▶</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="confetti" aria-hidden="true"></div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
